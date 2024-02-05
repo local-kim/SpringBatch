@@ -44,7 +44,9 @@ public class SimpleJobConfiguration {
     public Step simpleStep1(@Value("#{jobParameters[requestDate]}") String requestDate) {
         return stepBuilderFactory.get("simpleStep1")    // simpleStep1 이란 이름의 Batch Step을 생성합니다. 마찬가지로 Builder를 통해 이름을 지정합니다.
                 .tasklet((contribution, chunkContext) -> {  // Step 안에서 수행될 기능들을 명시합니다. Tasklet은 Step안에서 단일로 수행될 커스텀한 기능들을 선언할 때 사용합니다.
-                    throw new IllegalArgumentException("step1에서 실패합니다.");
+                    log.info(">>>>> This is Step1");    // Batch가 수행되면 log가 출력되도록 합니다.
+                    log.info(">>>>> requestDate = {}", requestDate);
+                    return RepeatStatus.FINISHED;
                 })
                 .build();
     }
